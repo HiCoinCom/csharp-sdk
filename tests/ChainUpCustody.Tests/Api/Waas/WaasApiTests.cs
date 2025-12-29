@@ -444,7 +444,7 @@ namespace ChainUpCustody.Tests.Api.Waas
       {
         Code = 0,
         Msg = "success",
-        Data = new Transfer { Id = "98765" }
+        Data = new Transfer { Id = 98765 }
       };
       mockTransferApi.Setup(x => x.AccountTransfer(It.IsAny<TransferArgs>()))
         .Returns(expectedResult);
@@ -456,7 +456,7 @@ namespace ChainUpCustody.Tests.Api.Waas
       Assert.NotNull(result);
       Assert.Equal(0, result.Code);
       Assert.NotNull(result.Data);
-      Assert.Equal("98765", result.Data.Id);
+      Assert.Equal(98765, result.Data.Id);
     }
 
     [Fact]
@@ -470,8 +470,8 @@ namespace ChainUpCustody.Tests.Api.Waas
         Msg = "success",
         Data = new List<Transfer>
         {
-          new Transfer { Id = "200", Symbol = "ETH", Amount = "1.0" },
-          new Transfer { Id = "201", Symbol = "BTC", Amount = "0.5" }
+          new Transfer { Id = 200, Symbol = "ETH", Amount = 1.0m },
+          new Transfer { Id = 201, Symbol = "BTC", Amount = 0.5m }
         }
       };
       mockTransferApi.Setup(x => x.GetAccountTransferList("200,201", ITransferApi.REQUEST_ID))
@@ -498,8 +498,8 @@ namespace ChainUpCustody.Tests.Api.Waas
         Msg = "success",
         Data = new List<Transfer>
         {
-          new Transfer { Id = "200", Symbol = "ETH" },
-          new Transfer { Id = "201", Symbol = "BTC" }
+          new Transfer { Id = 200, Symbol = "ETH" },
+          new Transfer { Id = 201, Symbol = "BTC" }
         }
       };
       mockTransferApi.Setup(x => x.SyncAccountTransferList(0))

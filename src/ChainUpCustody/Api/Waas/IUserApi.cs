@@ -8,11 +8,27 @@ namespace ChainUpCustody.Api.Waas
   public interface IUserApi
   {
     /// <summary>
+    /// Register mobile user
+    /// </summary>
+    /// <param name="country">Country code (e.g., "86" for China)</param>
+    /// <param name="mobile">Mobile phone number</param>
+    /// <returns>User info result</returns>
+    UserInfoResult RegisterMobileUser(string country, string mobile);
+
+    /// <summary>
     /// Register email user
     /// </summary>
     /// <param name="email">Email address</param>
     /// <returns>User info result</returns>
     UserInfoResult RegisterEmailUser(string email);
+
+    /// <summary>
+    /// Get mobile user information
+    /// </summary>
+    /// <param name="country">Country code (e.g., "86" for China)</param>
+    /// <param name="mobile">Mobile phone number</param>
+    /// <returns>User info result</returns>
+    UserInfoResult GetMobileUser(string country, string mobile);
 
     /// <summary>
     /// Get email user information

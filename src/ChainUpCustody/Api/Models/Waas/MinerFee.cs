@@ -1,5 +1,4 @@
 using Newtonsoft.Json;
-using System;
 
 namespace ChainUpCustody.Api.Models.Waas
 {
@@ -12,13 +11,13 @@ namespace ChainUpCustody.Api.Models.Waas
     /// Record ID
     /// </summary>
     [JsonProperty("id")]
-    public int? Id { get; set; }
+    public long? Id { get; set; }
 
     /// <summary>
     /// User ID
     /// </summary>
     [JsonProperty("uid")]
-    public string? Uid { get; set; }
+    public long? Uid { get; set; }
 
     /// <summary>
     /// Symbol
@@ -51,16 +50,16 @@ namespace ChainUpCustody.Api.Models.Waas
     public string? AddressTo { get; set; }
 
     /// <summary>
-    /// Creation time
+    /// Creation time (Unix timestamp)
     /// </summary>
     [JsonProperty("created_at")]
-    public DateTime? CreatedAt { get; set; }
+    public long? CreatedAt { get; set; }
 
     /// <summary>
-    /// Modification time
+    /// Modification time (Unix timestamp)
     /// </summary>
     [JsonProperty("updated_at")]
-    public DateTime? UpdatedAt { get; set; }
+    public long? UpdatedAt { get; set; }
 
     /// <summary>
     /// Transaction hash
@@ -81,10 +80,16 @@ namespace ChainUpCustody.Api.Models.Waas
     public int? Status { get; set; }
 
     /// <summary>
-    /// Transaction type
+    /// Fee symbol
+    /// </summary>
+    [JsonProperty("fee_symbol")]
+    public string? FeeSymbol { get; set; }
+
+    /// <summary>
+    /// Transaction type (0: on-chain, 1: internal)
     /// </summary>
     [JsonProperty("txid_type")]
-    public byte? TxidType { get; set; }
+    public int? TxidType { get; set; }
 
     /// <summary>
     /// Base symbol (main chain)

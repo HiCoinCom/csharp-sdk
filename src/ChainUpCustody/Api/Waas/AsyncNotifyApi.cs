@@ -35,6 +35,7 @@ namespace ChainUpCustody.Api.Waas
         return null;
       }
       var json = DataCrypto.Decode(cipher);
+      Console.WriteLine($"[DEBUG] VerifyRequest Raw JSON: {json}");
       return JsonConvert.DeserializeObject<WithdrawArgs>(json);
     }
 

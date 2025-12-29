@@ -109,5 +109,47 @@ namespace ChainUpCustody.Api.Models.Waas
     /// </summary>
     [JsonProperty("status")]
     public int Status { get; set; }
+
+    /// <summary>
+    /// Source address
+    /// </summary>
+    [JsonProperty("address_from")]
+    public string? AddressFrom { get; set; }
+
+    /// <summary>
+    /// Base symbol (main chain)
+    /// </summary>
+    [JsonProperty("base_symbol")]
+    public string? BaseSymbol { get; set; }
+
+    /// <summary>
+    /// Contract address (for tokens)
+    /// </summary>
+    [JsonProperty("contract_address")]
+    public string? ContractAddress { get; set; }
+
+    /// <summary>
+    /// Is mining reward (0: no, 1: yes)
+    /// </summary>
+    [JsonProperty("is_mining")]
+    public string? IsMining { get; set; }
+
+    /// <summary>
+    /// Transaction type (0: on-chain, 1: internal)
+    /// </summary>
+    [JsonProperty("txid_type")]
+    public string? TxidType { get; set; }
+
+    /// <summary>
+    /// API version
+    /// </summary>
+    [JsonProperty("version")]
+    public string? Version { get; set; }
+
+    /// <summary>
+    /// Signature for verification
+    /// </summary>
+    [JsonProperty("sign")]
+    public string? Sign { get; set; }
   }
 }

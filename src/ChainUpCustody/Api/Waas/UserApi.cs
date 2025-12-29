@@ -17,6 +17,17 @@ namespace ChainUpCustody.Api.Waas
     }
 
     /// <inheritdoc/>
+    public UserInfoResult RegisterMobileUser(string country, string mobile)
+    {
+      var args = new RegisterArgs
+      {
+        Country = country,
+        Mobile = mobile
+      };
+      return Invoke<UserInfoResult>(ApiUri.CreateUserMobile, args);
+    }
+
+    /// <inheritdoc/>
     public UserInfoResult RegisterEmailUser(string email)
     {
       var args = new RegisterArgs
@@ -24,6 +35,17 @@ namespace ChainUpCustody.Api.Waas
         Email = email
       };
       return Invoke<UserInfoResult>(ApiUri.CreateUserEmail, args);
+    }
+
+    /// <inheritdoc/>
+    public UserInfoResult GetMobileUser(string country, string mobile)
+    {
+      var args = new UserInfoArgs
+      {
+        Country = country,
+        Mobile = mobile
+      };
+      return Invoke<UserInfoResult>(ApiUri.GetUserInfo, args);
     }
 
     /// <inheritdoc/>

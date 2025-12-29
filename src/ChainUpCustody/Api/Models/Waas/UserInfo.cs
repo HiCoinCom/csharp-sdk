@@ -11,7 +11,13 @@ namespace ChainUpCustody.Api.Models.Waas
     /// User ID
     /// </summary>
     [JsonProperty("uid")]
-    public int Uid { get; set; }
+    public long Uid { get; set; }
+
+    /// <summary>
+    /// Authentication level
+    /// </summary>
+    [JsonProperty("auth_level")]
+    public int? AuthLevel { get; set; }
 
     /// <summary>
     /// User nickname
@@ -20,10 +26,22 @@ namespace ChainUpCustody.Api.Models.Waas
     public string? Nickname { get; set; }
 
     /// <summary>
-    /// Email address
+    /// Real name
     /// </summary>
-    [JsonProperty("email")]
-    public string? Email { get; set; }
+    [JsonProperty("real_name")]
+    public string? RealName { get; set; }
+
+    /// <summary>
+    /// Invite code
+    /// </summary>
+    [JsonProperty("invite_code")]
+    public string? InviteCode { get; set; }
+
+    /// <summary>
+    /// Country code
+    /// </summary>
+    [JsonProperty("country")]
+    public string? Country { get; set; }
 
     /// <summary>
     /// Mobile phone number
@@ -32,9 +50,9 @@ namespace ChainUpCustody.Api.Models.Waas
     public string? Mobile { get; set; }
 
     /// <summary>
-    /// Country code
+    /// Email address
     /// </summary>
-    [JsonProperty("country")]
-    public string? Country { get; set; }
+    [JsonProperty("email")]
+    public string? Email { get; set; }
   }
 }

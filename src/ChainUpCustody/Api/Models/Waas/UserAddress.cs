@@ -8,16 +8,16 @@ namespace ChainUpCustody.Api.Models.Waas
   public class UserAddress
   {
     /// <summary>
-    /// ID
+    /// Address ID (from sync list)
     /// </summary>
     [JsonProperty("id")]
-    public int Id { get; set; }
+    public long? Id { get; set; }
 
     /// <summary>
     /// User ID
     /// </summary>
     [JsonProperty("uid")]
-    public int Uid { get; set; }
+    public long? Uid { get; set; }
 
     /// <summary>
     /// Cryptocurrency symbol
@@ -30,11 +30,5 @@ namespace ChainUpCustody.Api.Models.Waas
     /// </summary>
     [JsonProperty("address")]
     public string? Address { get; set; }
-
-    /// <summary>
-    /// Address tag/memo
-    /// </summary>
-    [JsonProperty("address_tag")]
-    public string? AddressTag { get; set; }
   }
 }

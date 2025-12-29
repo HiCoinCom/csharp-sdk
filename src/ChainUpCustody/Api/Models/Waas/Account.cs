@@ -8,15 +8,21 @@ namespace ChainUpCustody.Api.Models.Waas
   public class Account
   {
     /// <summary>
-    /// Balance
-    /// </summary>
-    [JsonProperty("balance")]
-    public decimal Balance { get; set; }
-
-    /// <summary>
     /// Cryptocurrency symbol
     /// </summary>
     [JsonProperty("symbol")]
     public string? Symbol { get; set; }
+
+    /// <summary>
+    /// Available balance
+    /// </summary>
+    [JsonProperty("balance")]
+    public decimal? Balance { get; set; }
+
+    /// <summary>
+    /// Frozen balance
+    /// </summary>
+    [JsonProperty("frozen")]
+    public decimal? Frozen { get; set; }
   }
 }

@@ -114,5 +114,17 @@ namespace ChainUpCustody.Api.Models.Waas
     /// </summary>
     [JsonProperty("merge_address_symbol")]
     public string? MergeAddressSymbol { get; set; }
+
+    /// <summary>
+    /// Margin symbol
+    /// </summary>
+    [JsonProperty("margin_symbol")]
+    public string? MarginSymbol { get; set; }
+
+    /// <summary>
+    /// Explorer URL
+    /// </summary>
+    [JsonProperty("explorer")]
+    public string? Explorer { get; set; }
   }
 }

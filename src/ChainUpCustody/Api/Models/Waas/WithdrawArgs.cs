@@ -38,7 +38,7 @@ namespace ChainUpCustody.Api.Models.Waas
     public string? Symbol { get; set; }
 
     /// <summary>
-    /// Checksum for verification
+    /// Checksum for verification（create by ChainUp）
     /// </summary>
     [JsonProperty("check_sum")]
     public string? CheckSum { get; set; }

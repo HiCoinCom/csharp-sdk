@@ -8,10 +8,22 @@ namespace ChainUpCustody.Api.Models.Waas
   public class Transfer
   {
     /// <summary>
-    /// Transfer ID
+    /// Record ID
     /// </summary>
     [JsonProperty("id")]
-    public string? Id { get; set; }
+    public long? Id { get; set; }
+
+    /// <summary>
+    /// Request ID
+    /// </summary>
+    [JsonProperty("request_id")]
+    public string? RequestId { get; set; }
+
+    /// <summary>
+    /// Receipt number
+    /// </summary>
+    [JsonProperty("receipt")]
+    public string? Receipt { get; set; }
 
     /// <summary>
     /// Cryptocurrency symbol
@@ -23,42 +35,36 @@ namespace ChainUpCustody.Api.Models.Waas
     /// Transfer amount
     /// </summary>
     [JsonProperty("amount")]
-    public string? Amount { get; set; }
+    public decimal? Amount { get; set; }
 
     /// <summary>
-    /// Sender
+    /// Source user ID
     /// </summary>
     [JsonProperty("from")]
     public string? From { get; set; }
 
     /// <summary>
-    /// Recipient
+    /// Destination user ID
     /// </summary>
     [JsonProperty("to")]
     public string? To { get; set; }
 
     /// <summary>
-    /// Creation timestamp
+    /// Status
     /// </summary>
-    [JsonProperty("created_at")]
-    public long? CreatedAt { get; set; }
-
-    /// <summary>
-    /// Request ID
-    /// </summary>
-    [JsonProperty("request_id")]
-    public string? RequestId { get; set; }
-
-    /// <summary>
-    /// Receipt
-    /// </summary>
-    [JsonProperty("receipt")]
-    public string? Receipt { get; set; }
+    [JsonProperty("status")]
+    public int? Status { get; set; }
 
     /// <summary>
     /// Remark
     /// </summary>
     [JsonProperty("remark")]
     public string? Remark { get; set; }
+
+    /// <summary>
+    /// Creation time (Unix timestamp in milliseconds)
+    /// </summary>
+    [JsonProperty("created_at")]
+    public long? CreatedAt { get; set; }
   }
 }

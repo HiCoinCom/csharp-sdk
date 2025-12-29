@@ -4,6 +4,7 @@ using ChainUpCustody.Api.Models.Waas;
 using ChainUpCustody.Api.Waas;
 using ChainUpCustody.Client;
 using ChainUpCustody.Config;
+using Newtonsoft.Json;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -26,7 +27,7 @@ namespace ChainUpCustody.Tests.Api.Waas
 
     // Test configuration - replace with your actual values or use environment variables
     private const int TestUid = 15036904;
-    private const string TestSymbol = "ETH";
+    private const string TestSymbol = "APTOS";
     private const string TestEmail = "test@example.com";
     private const string TestAddress = "0xd4036730fd450237b8fea382bd887c4c96a8453a";
 
@@ -66,6 +67,29 @@ namespace ChainUpCustody.Tests.Api.Waas
     #region User API Tests
 
     [SkippableFact]
+    public void RegisterMobileUser_ShouldRegisterUser()
+    {
+      SkipIfNotConfigured();
+
+      _output.WriteLine("\n========== 用户管理 (User API) ==========");
+
+      // 1. 注册手机号用户
+      var country = "86";
+      var mobile = "13800138001";
+      var result = _client!.UserApi.RegisterMobileUser(country, mobile);
+
+      _output.WriteLine($"✓ 注册手机号用户 (+{country} {mobile}): Code={result.Code}");
+
+      Assert.NotNull(result);
+      if (result.Code == 0 && result.Data != null)
+      {
+        _output.WriteLine($"  UID: {result.Data.Uid}");
+        _output.WriteLine($"  手机号: {result.Data.Mobile}");
+        _output.WriteLine($"  国家代码: {result.Data.Country}");
+      }
+    }
+
+    [SkippableFact]
     public void RegisterEmailUser_ShouldRegisterUser()
     {
       SkipIfNotConfigured();
@@ -73,7 +97,7 @@ namespace ChainUpCustody.Tests.Api.Waas
       _output.WriteLine("\n========== 用户管理 (User API) ==========");
 
       // 1. 注册邮箱用户
-      var email = $"test_{DateTime.Now:yyyyMMddHHmmss}@example.com";
+      var email = "test1212@example.com";
       var result = _client!.UserApi.RegisterEmailUser(email);
 
       _output.WriteLine($"✓ 注册邮箱用户 ({email}): Code={result.Code}");
@@ -87,11 +111,32 @@ namespace ChainUpCustody.Tests.Api.Waas
     }
 
     [SkippableFact]
+    public void GetMobileUser_ShouldReturnUserInfo()
+    {
+      SkipIfNotConfigured();
+
+      // 获取手机号用户信息
+      var country = "86";
+      var mobile = "13800138000";
+      var result = _client!.UserApi.GetMobileUser(country, mobile);
+
+      _output.WriteLine($"✓ 获取手机号用户 (+{country} {mobile}): Code={result.Code}");
+
+      Assert.NotNull(result);
+      if (result.Code == 0 && result.Data != null)
+      {
+        _output.WriteLine($"  UID: {result.Data.Uid}");
+        _output.WriteLine($"  手机号: {result.Data.Mobile}");
+        _output.WriteLine($"  国家代码: {result.Data.Country}");
+      }
+    }
+
+    [SkippableFact]
     public void GetEmailUser_ShouldReturnUserInfo()
     {
       SkipIfNotConfigured();
 
-      // 2. 获取邮箱用户信息
+      // 获取邮箱用户信息
       var result = _client!.UserApi.GetEmailUser(TestEmail);
 
       _output.WriteLine($"✓ 获取邮箱用户 ({TestEmail}): Code={result.Code}");
@@ -120,7 +165,7 @@ namespace ChainUpCustody.Tests.Api.Waas
         _output.WriteLine($"  用户数量: {result.Data.Count}");
         if (result.Data.Count > 0)
         {
-          _output.WriteLine($"  首条UID: {result.Data[0].Uid}");
+          _output.WriteLine($"  首条完整数据: {JsonConvert.SerializeObject(result.Data[0], Formatting.Indented)}");
         }
       }
     }
@@ -162,7 +207,7 @@ namespace ChainUpCustody.Tests.Api.Waas
       Assert.NotNull(result);
       if (result.Code == 0 && result.Data != null)
       {
-        _output.WriteLine($"  地址: {result.Data.Address}");
+        _output.WriteLine($"  完整数据: {JsonConvert.SerializeObject(result.Data, Formatting.Indented)}");
       }
     }
 
@@ -200,7 +245,7 @@ namespace ChainUpCustody.Tests.Api.Waas
         _output.WriteLine($"  地址数量: {result.Data.Count}");
         if (result.Data.Count > 0)
         {
-          _output.WriteLine($"  首条地址: {result.Data[0].Address}");
+          _output.WriteLine($"  首条完整数据: {JsonConvert.SerializeObject(result.Data[0], Formatting.Indented)}");
         }
       }
     }
@@ -225,15 +270,9 @@ namespace ChainUpCustody.Tests.Api.Waas
       if (result.Code == 0 && result.Data != null)
       {
         _output.WriteLine($"  支持币种数量: {result.Data.Count}");
-        var count = 0;
-        foreach (var coin in result.Data)
+        if (result.Data.Count > 0)
         {
-          if (count++ >= 5) break;
-          _output.WriteLine($"  - {coin.Symbol}: {coin.RealSymbol}");
-        }
-        if (result.Data.Count > 5)
-        {
-          _output.WriteLine($"  ... 还有 {result.Data.Count - 5} 个币种");
+          _output.WriteLine($"  首条完整数据: {JsonConvert.SerializeObject(result.Data[0], Formatting.Indented)}");
         }
       }
     }
@@ -252,7 +291,7 @@ namespace ChainUpCustody.Tests.Api.Waas
       // 1. 发起提现
       var withdrawArgs = new WithdrawArgs
       {
-        RequestId = $"withdraw_{DateTime.Now:yyyyMMddHHmmss}_{new Random().Next(1000, 9999)}",
+        RequestId = "123456789020",
         FromUid = TestUid,
         ToAddress = "0x0f1dc222af5ea2660ff84ae91adc48f1cb2d4991f1e6569dd24d94599c335a06",
         Amount = 0.001m,
@@ -277,7 +316,7 @@ namespace ChainUpCustody.Tests.Api.Waas
       SkipIfNotConfigured();
 
       // 2. 查询提现记录 (按 request_id)
-      var requestIds = new List<string> { "test_request_1", "test_request_2" };
+      var requestIds = new List<string> { "1234567890", "test_request_2" };
       var result = _client!.BillingApi.WithdrawList(requestIds);
 
       _output.WriteLine($"✓ 查询提现记录: Code={result.Code}");
@@ -305,7 +344,7 @@ namespace ChainUpCustody.Tests.Api.Waas
         _output.WriteLine($"  提现记录数量: {result.Data.Count}");
         if (result.Data.Count > 0)
         {
-          _output.WriteLine($"  首条RequestId: {result.Data[0].RequestId}");
+          _output.WriteLine($"  首条完整数据: {JsonConvert.SerializeObject(result.Data[0], Formatting.Indented)}");
         }
       }
     }
@@ -344,7 +383,7 @@ namespace ChainUpCustody.Tests.Api.Waas
         _output.WriteLine($"  充值记录数量: {result.Data.Count}");
         if (result.Data.Count > 0)
         {
-          _output.WriteLine($"  首条ID: {result.Data[0].Id}");
+          _output.WriteLine($"  首条完整数据: {JsonConvert.SerializeObject(result.Data[0], Formatting.Indented)}");
         }
       }
     }
@@ -355,7 +394,7 @@ namespace ChainUpCustody.Tests.Api.Waas
       SkipIfNotConfigured();
 
       // 6. 查询矿工费记录 (按 WaaS ID)
-      var waasIds = new List<int> { 123, 456 };
+      var waasIds = new List<int> { 1001, 1002 };
       var result = _client!.BillingApi.MinerFeeList(waasIds);
 
       _output.WriteLine($"✓ 查询矿工费记录: Code={result.Code}");
@@ -383,7 +422,7 @@ namespace ChainUpCustody.Tests.Api.Waas
         _output.WriteLine($"  矿工费记录数量: {result.Data.Count}");
         if (result.Data.Count > 0)
         {
-          _output.WriteLine($"  首条ID: {result.Data[0].Id}");
+          _output.WriteLine($"  首条完整数据: {JsonConvert.SerializeObject(result.Data[0], Formatting.Indented)}");
         }
       }
     }
@@ -471,7 +510,7 @@ namespace ChainUpCustody.Tests.Api.Waas
         _output.WriteLine($"  转账记录数量: {result.Data.Count}");
         if (result.Data.Count > 0)
         {
-          _output.WriteLine($"  首条RequestId: {result.Data[0].RequestId}");
+          _output.WriteLine($"  首条完整数据: {JsonConvert.SerializeObject(result.Data[0], Formatting.Indented)}");
         }
       }
     }
@@ -488,9 +527,12 @@ namespace ChainUpCustody.Tests.Api.Waas
       _output.WriteLine("\n========== 异步通知 (Async Notify API) ==========");
 
       // 解密通知数据 (使用实际的加密通知数据)
-      var encryptedNotify = "jhoA9MtGotqWxqEtB27SwCtJCo9JSIxh2B6m8CItrPQj2gsm6rw-..."; // 替换为实际加密数据
+      var encryptedNotify = "jhoA9MtGotqWxqEtB27SwCtJCo9JSIxh2B6m8CItrPQj2gsm6rw-ti1qY5tNP52qXg60FLK49cFj-a84m-57z8aT-Vo-YyJPTcM8Qpuyjj5Pf8tAcbBjBHganULYNPjCCkzgH5n5dlMZIp0tmpc7nV7Pp6hi63KjGGNTfAAbWp7QOVukAsQeQyBFPeKhlVEhq8xqQEN2yg_T1jHRUjIdlTDn2LG_i2tI0MlDpPg5FHL6cViSVM23WBPhJnAFOOrGhaqq06YtVG2m8_x_pLTyI5ZK61Bv0HnDUuIkDuRqNXyhko0sG9uGuKWJ3maWfUc9bSb0VcWPHeWnYUrcE2M9TVtwTEKdcImqZnvjc12YUh_Oz2a9VNls_XN_gTRbeIiTUGsiXX1Yq6OkCCxrsCgD0AXz0KOX4uphZldXq17ZO7sU21-b1y0rsk0qY6PbKRYpp4hhdeKpEfB2gckhf1rc9h17j0ufri4LqsE4EccGuQD4JcSrT5RLY4QRil4wdIO9ZPmhb-Od3zqT9OYPSvPg0QVCVpw-Tn17WfsZw2xB9gO8uzvGcvz9TfUrI8zKg6b6roTR9xt0m0oqMCyhrjAlU35QUh54MHAWI22A3WJkR4d4KhTOrq-2KuCg7Obi3SCoZmVWb28tztUwN6ttc4PJmM370g_YNCiv5Q6F95QgozYAGpu7Kc8ckcsORixNAUpqTCYaZHmST7bxCXDGPaL45H4zHe6IkU-Tf06rY7DoKeMgjGTz3Pb8hrXRXdSCYz9y0MjwGledXqnLiww0Dn_q-qWgOqQs6NeiLG5IqWKJG2e0buav2l_fH-biflRHjpidaTvFnTMUPf9k9-ygWwiWDzM9OD0X-mNdEI6WNe_27O9CtmUTxlBgRJ2tYyhF32a3flQXaA4m34PPXD_HyxFYRQXfqTt_7uaV7NinsnwN8Ll9ccFdXw8BuANu8j24zvBP0zvUyo9d1ywqn0Cw2wt-vPUWF7sZifTLkdr9O7mcAN08ByaIc1MR5ULI-lUsfi6U"; // 替换为实际加密数据
 
       var result = _client!.AsyncNotifyApi.NotifyRequest(encryptedNotify);
+
+      // 打印完整的解密 JSON
+      _output.WriteLine($"完整解密结果: {JsonConvert.SerializeObject(result, Formatting.Indented)}");
 
       if (result != null)
       {
@@ -510,9 +552,12 @@ namespace ChainUpCustody.Tests.Api.Waas
       SkipIfNotConfigured();
 
       // 解密提现二次验证请求
-      var encryptedRequest = "encrypted_withdraw_request_data"; // 替换为实际加密数据
+      var encryptedRequest = "jhoA9MtGotqWxqEtB27SwCtJCo9JSIxh2B6m8CItrPQj2gsm6rw-ti1qY5tNP52qXg60FLK49cFj-a84m-57z8aT-Vo-YyJPTcM8Qpuyjj5Pf8tAcbBjBHganULYNPjCCkzgH5n5dlMZIp0tmpc7nV7Pp6hi63KjGGNTfAAbWp7QOVukAsQeQyBFPeKhlVEhq8xqQEN2yg_T1jHRUjIdlTDn2LG_i2tI0MlDpPg5FHL6cViSVM23WBPhJnAFOOrGhaqq06YtVG2m8_x_pLTyI5ZK61Bv0HnDUuIkDuRqNXyhko0sG9uGuKWJ3maWfUc9bSb0VcWPHeWnYUrcE2M9TVtwTEKdcImqZnvjc12YUh_Oz2a9VNls_XN_gTRbeIiTUGsiXX1Yq6OkCCxrsCgD0AXz0KOX4uphZldXq17ZO7sU21-b1y0rsk0qY6PbKRYpp4hhdeKpEfB2gckhf1rc9h17j0ufri4LqsE4EccGuQD4JcSrT5RLY4QRil4wdIO9ZPmhb-Od3zqT9OYPSvPg0QVCVpw-Tn17WfsZw2xB9gO8uzvGcvz9TfUrI8zKg6b6roTR9xt0m0oqMCyhrjAlU35QUh54MHAWI22A3WJkR4d4KhTOrq-2KuCg7Obi3SCoZmVWb28tztUwN6ttc4PJmM370g_YNCiv5Q6F95QgozYAGpu7Kc8ckcsORixNAUpqTCYaZHmST7bxCXDGPaL45H4zHe6IkU-Tf06rY7DoKeMgjGTz3Pb8hrXRXdSCYz9y0MjwGledXqnLiww0Dn_q-qWgOqQs6NeiLG5IqWKJG2e0buav2l_fH-biflRHjpidaTvFnTMUPf9k9-ygWwiWDzM9OD0X-mNdEI6WNe_27O9CtmUTxlBgRJ2tYyhF32a3flQXaA4m34PPXD_HyxFYRQXfqTt_7uaV7NinsnwN8Ll9ccFdXw8BuANu8j24zvBP0zvUyo9d1ywqn0Cw2wt-vPUWF7sZifTLkdr9O7mcAN08ByaIc1MR5ULI-lUsfi6U"; // 替换为实际加密数据
 
       var result = _client!.AsyncNotifyApi.VerifyRequest(encryptedRequest);
+
+      // 打印完整的解密 JSON
+      _output.WriteLine($"完整解密结果: {JsonConvert.SerializeObject(result, Formatting.Indented)}");
 
       if (result != null)
       {
