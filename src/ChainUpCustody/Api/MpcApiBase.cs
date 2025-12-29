@@ -70,15 +70,13 @@ namespace ChainUpCustody.Api
 
         // Build request parameters with signature support
         var time = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-        var signContent = $"{Config.AppId}{encryptedData}{time}";
-        var sign = DataCrypto.HasSignKey() ? DataCrypto.Sign(signContent) : null;
 
         var requestArgs = new Args
         {
           AppId = Config.AppId,
           Data = encryptedData,
           Time = time,
-          Sign = sign
+          Sign = ""
         };
 
         // Build URL
@@ -200,15 +198,13 @@ namespace ChainUpCustody.Api
 
         // Build request parameters with signature support
         var time = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-        var signContent = $"{Config.AppId}{encryptedData}{time}";
-        var sign = DataCrypto.HasSignKey() ? DataCrypto.Sign(signContent) : null;
 
         var requestArgs = new Args
         {
           AppId = Config.AppId,
           Data = encryptedData,
           Time = time,
-          Sign = sign
+          Sign = ""
         };
 
         // Build URL

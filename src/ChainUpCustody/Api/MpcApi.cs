@@ -160,15 +160,13 @@ namespace ChainUpCustody.Api
 
         // Build request parameters
         var time = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-        var signContent = $"{Config.AppId}{encryptedData}{time}";
-        var sign = DataCrypto.HasSignKey() ? DataCrypto.Sign(signContent) : null;
 
         var args = new Args
         {
           AppId = Config.AppId,
           Data = encryptedData,
           Time = time,
-          Sign = sign
+          Sign = ""
         };
         var parameters = args.ToDictionary();
 
