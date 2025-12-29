@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>ChainUpCustody</RootNamespace>
+    <AssemblyName>ChainUpCustody</AssemblyName>
+    <Version>1.0.0</Version>
+    <Authors>ChainUp Custody</Authors>
+    <Company>ChainUp</Company>
+    <Description>ChainUp WaaS (Wallet as a Service) C# SDK</Description>
+    <PackageProjectUrl>https://github.com/HiCoinCom/csharp-sdk</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/HiCoinCom/csharp-sdk</RepositoryUrl>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
+    <PackageReference Include="BouncyCastle.Cryptography" Version="2.5.1" />
+  </ItemGroup>
+
+</Project>
